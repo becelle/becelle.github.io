@@ -1,0 +1,602 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Subscribe to our Newsletter</title>
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.9.1/themes/base/jquery-ui.css" />
+    <script src="http://code.jquery.com/jquery-1.8.2.js"></script>
+    <script src="http://code.jquery.com/ui/1.9.1/jquery-ui.js"></script>
+    <link rel="stylesheet" href="/resources/demos/style.css" />
+    	<link rel="stylesheet" href="css/validationEngine.jquery.css" type="text/css"/>
+	<link rel="stylesheet" href="css/template.css" type="text/css"/>
+
+	<script src="js/languages/jquery.validationEngine-en.js" type="text/javascript" charset="utf-8">
+	</script>
+	<script src="js/jquery.validationEngine.js" type="text/javascript" charset="utf-8">
+	</script>
+
+	<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.0/themes/base/jquery-ui.css">
+	<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.0/jquery-ui.min.js"></script>
+	<script>
+		jQuery(document).ready(function(){
+			// binds form submission and fields to the validation engine
+			jQuery("#ssform").validationEngine('attach', {promptPosition : "bottomRight", autoPositionUpdate : true});
+			
+			$( "#progressbar" ).progressbar({
+            	value: 0
+        	});
+		});
+	</script>
+
+<script type="text/javascript" >
+function getYes(){
+		questionGroup = new Array( 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i' );
+		groupTotalQuestions = new Array( 3, 3, 5, 9, 3, 2, 2, 8, 1);
+		groupTotalQuestionsYes = new Array( 0, 0, 0, 0, 0, 0, 0, 0, 0);
+		groupTotalQuestionsNo = new Array( 0, 0, 0, 0, 0, 0, 0, 0, 0);
+		totalNo = 0;
+		totalYes = 0;
+		
+		var field = 4;
+		try{
+		for(var i=0; i<questionGroup.length; i++,field++) {
+			for(j=0; j<groupTotalQuestions[i]; j++,field++) {
+				
+				if((!$('#ssform input[name="entry.'+(field)+'.group"]:checked').val())){}
+				else if($('#ssform input[name="entry.'+(field)+'.group"]:checked').val().toLowerCase()=="yes")
+					groupTotalQuestionsYes[i]++;
+				else if($('#ssform input[name="entry.'+(field)+'.group"]:checked').val().toLowerCase()=="no")
+					groupTotalQuestionsNo[i]++;
+			
+			}
+			//alert(field);
+			field--;
+		}
+		}catch(e){alert(e)}
+		
+		for(var i=0; i<questionGroup.length; i++) {
+			if(!(isNaN( 100 * ( groupTotalQuestionsYes[i] / ( groupTotalQuestionsYes[i]+groupTotalQuestionsNo[i] ) ) ))){
+				$('#'+(questionGroup[i])).text( parseInt( 100 * ( groupTotalQuestionsYes[i] / ( groupTotalQuestionsYes[i]+groupTotalQuestionsNo[i] ) ) ) + "%" );
+				totalYes += groupTotalQuestionsYes[i];
+				totalNo += groupTotalQuestionsNo[i];
+			}
+		}
+		$('#totalScore').text( (parseInt( 100 * ( totalYes / ( totalYes + totalNo ) ) )) + "%" );
+};
+$(document).ready(function(){
+	
+	$('#ssform input[type=text]').keypress(function(){
+		calculatePercentage();
+	});
+
+	$('#ssform').change(function(){
+		calculatePercentage();
+	});
+
+	function calculatePercentage(){
+		var count = 0;
+		var totalFields = 40;
+		
+		getYes();
+
+		$('#ssform input[type=radio]').each(function(){
+			if($(this).filter(':checked').val())
+				count++;
+		});	
+		//alert((count/totalFields)*100);
+		$('#ssform input[type=text]').each(function(){
+			if( $(this).val()!="" )
+				count++;
+		})
+		$('.totalScore').text('Form completion: '+((count/totalFields)*100).toFixed(1)+"%");
+		$( "#progressbar" ).progressbar({
+            	value: parseInt(((count/totalFields)*100).toFixed(1))
+        	});
+	}
+
+	
+	$('#entry_2').datepicker();
+	$('input').change(function(){
+		var percentageDone = parseInt(getYes()*100);
+		$('.totalScore').html('The total score is: ' + percentageDone +'%');
+	});
+});
+
+</script>
+<style type="text/css">
+<!--
+body {
+	margin: 20px;
+	padding: 0;
+	line-height: 1.5em;
+	font-size: 14px;
+	color: #FFFFFF;
+	font-family: Tahoma;
+	-webkit-transition: all;
+	-moz-transition: all;
+	-ms-transition: all;
+	-o-transition: all;
+	transition: all;
+	text-align: center;
+	background-color: #FFF;
+}
+h1 {
+	color: #FFFFFF;
+	font-family: Tahoma, Geneva, sans-serif;
+	font-weight: bold;
+}
+.Category {
+	font-family: Tahoma, Geneva, sans-serif;
+	font-size: 14px;
+	font-style: normal;
+	line-height: normal;
+	color: #FFF;
+	background-color: #0086CE;
+	text-align: center;
+}
+Category2 {
+	font-family: Tahoma, Geneva, sans-serif;
+	background-color: #86BCE6;
+}
+#status {
+	color:#CC0000;
+}
+#ssform table .Category .Category .Category {
+	text-align: center;
+}
+.Body {
+	text-align: justify;
+	color: #333333;
+	font-family: Tahoma;
+	font-weight: normal;
+}
+tr {
+	color: #333333;
+}
+strong {
+	color: #FFF;
+}
+#ssform table {
+	color: #333;
+}
+.Category {
+	text-align: left;
+	font-family: Tahoma, Geneva, sans-serif;
+	font-weight: bold;
+}
+#ssform table .Category th label {
+	text-align: center;
+}
+td {
+	color: #333;
+	font-family: Tahoma, Geneva, sans-serif;
+}
+label {
+	text-align: left;
+	font-family: Tahoma;
+}
+#ssform table .Category th label {
+	text-align: center;
+	font-family: Tahoma, Geneva, sans-serif;
+}
+-->
+</style>
+<script type="text/javascript" src="form-validation.js"></script>
+</head>
+<body>
+<div>
+        <form onsubmit="return validateForm();" method="post" name="ssform" id="ssform" target="ssiframe">
+<table width="987" height="1004" border="1">
+   
+        <td width="977" height="998">
+          <table width="981" border="0" cellpadding="2" cellspacing="0">
+            <tr>
+        <td width="179" rowspan="4" bgcolor="#ECECEC"><p><strong class="Body">Sales Feedback</strong></p></td>
+        <td width="345" height="23" bgcolor="#ECECEC"><label for="entry_0">Your name:</label>
+          <font color="#CC0000">*</font></td>
+        <td width="255" bgcolor="#ECECEC"><label for="entry_5">Date of the call (dd/mm/yyyy):</label>
+          <font color="#CC0000">*</font></td>
+        <td width="186" rowspan="4" bgcolor="#E8E8E8">&nbsp;</td>
+      </tr>
+      <tr>
+        <td height="24" bgcolor="#ECECEC"><input name="entry.0.single" class="validate[required] text-input" type="text" id="entry_0" value="" size="40" /></td>
+        <td bgcolor="#ECECEC"><input name="entry.2.single" class="validate[required] text-input" type="text" id="entry_2" value="" size="40" /></td>
+      </tr>
+      <tr>
+        <td bgcolor="#ECECEC"><label for="entry_1">Advisor's first name:</label>
+          <font color="#CC0000">*</font></td>
+        <td bgcolor="#ECECEC"><label for="entry_3">Call reference (e.g 12101209VV):</label>
+          <font color="#CC0000">*</font></td>
+      </tr>
+      <tr>
+        <td height="24" bgcolor="#ECECEC"><input name="entry.1.single" class="validate[required] text-input" type="text" id="entry_1" value="" size="40" /></td>
+        <td bgcolor="#ECECEC"><input name="entry.3.single" class="validate[required] text-input" type="text" id="entry_3" value="" size="40" /></td>
+      </tr>
+  </table>
+      <table width="979" cellpadding="0" cellspacing="0">
+        <tr>
+          <td width="965" height="44"><p class="Body">Welcome to the Call Feedback Tool for Sales. This tool has been developed to help managers provide objective, fact based and professional feedback. The purpose is to  improve quality, to identify development/trainig opportunities, to help advisor become more successful and motivated in their job. </p></td>
+        </tr>
+      </table>
+      <div>
+        <iframe name="ssiframe" id="ssiframe" style="display:none;" onload="if(submitted) {window.location='google-success-form-1.html';}"></iframe>
+
+          <table width="977" border="0" cellpadding="0" cellspacing="0">
+            <tr class="Category">
+              <th height="21" align="left" bgcolor="#0086CE" scope="col">A. Greeting</th>
+              <th width="28" bgcolor="#0086CE" scope="col">Yes</th>
+              <th width="26" bgcolor="#0086CE" scope="col">No</th>
+              <th width="30" bgcolor="#0086CE" scope="col">N/A</th>
+              <th width="10" bgcolor="#FFFFFF" scope="col">&nbsp;</th>
+              <th width="363" align="left">E. Notifications</th>
+              <th width="28" scope="col">Yes</th>
+              <th width="28" scope="col">No</th>
+              <th width="31" scope="col">N/A</th>
+            </tr>
+            <tr>
+              <td align="left" bgcolor="#ECECEC">1. Mention the 'brand specific' company name<font color="#CC0000"> *</font></td>
+              <td align="center" valign="middle" bgcolor="#ECECEC"><input type="radio" class="validate[required] radio" name="entry.4.group" value="Yes" id="group_4_1" /></td>
+              <td align="center" valign="middle" bgcolor="#ECECEC"><input type="radio" class="validate[required] radio" name="entry.4.group" value="No" id="group_4_2" /></td>
+              <td align="center" valign="middle" bgcolor="#ECECEC"><input type="radio" class="validate[required] radio" name="entry.4.group" value="N/A" id="group_4_3" /></td>
+              <td align="center" valign="middle" bgcolor="#FFFFFF">&nbsp;</td>
+              <td align="left" bgcolor="#ECECEC">21. Explain why what the credit card details are for<font color="#CC0000"> *</font></td>
+              <td align="center" valign="middle" bgcolor="#ECECEC"><input type="radio" class="validate[required] radio" name="entry.24.group" value="Yes" id="group_24_1" /></td>
+              <td align="center" valign="middle" bgcolor="#ECECEC"><input type="radio" class="validate[required] radio" name="entry.24.group" value="No" id="group_24_2" /></td>
+              <td align="center" valign="middle" bgcolor="#ECECEC"><input type="radio" class="validate[required] radio" name="entry.24.group" value="N/A" id="group_24_3" /></td>
+            </tr>
+            <tr>
+              <td align="left">2. Mention his / her own name <font color="#CC0000">*</font></td>
+              <td align="center" valign="middle"><input type="radio" class="validate[required] radio" name="entry.5.group" value="Yes" id="group_5_1" /></td>
+              <td align="center" valign="middle"><input type="radio" class="validate[required] radio" name="entry.5.group" value="No" id="group_5_2" /></td>
+              <td align="center" valign="middle"><input type="radio" class="validate[required] radio" name="entry.5.group" value="N/A" id="group_5_3" /></td>
+              <td align="center" valign="middle" bgcolor="#FFFFFF">&nbsp;</td>
+              <td align="left">22. Advise the contact ref. number (post code)<font color="#CC0000"> *</font></td>
+              <td align="center" valign="middle"><input type="radio" class="validate[required] radio" name="entry.25.group" value="Yes" id="group_25_1" /></td>
+              <td align="center" valign="middle"><input type="radio" class="validate[required] radio" name="entry.25.group" value="No" id="group_25_2" /></td>
+              <td align="center" valign="middle"><input type="radio" class="validate[required] radio" name="entry.25.group" value="N/A" id="group_25_3" /></td>
+            </tr>
+            <tr>
+              <td align="left" bgcolor="#ECECEC">3. If the call was transferred did the advisor adapt the greeting <font color="#CC0000">*</font></td>
+              <td align="center" valign="middle" bgcolor="#ECECEC"><input type="radio" class="validate[required] radio" name="entry.6.group" value="Yes" id="group_6_1" /></td>
+              <td align="center" valign="middle" bgcolor="#ECECEC"><input type="radio" class="validate[required] radio" name="entry.6.group" value="No" id="group_6_2" /></td>
+              <td align="center" valign="middle" bgcolor="#ECECEC"><input type="radio" class="validate[required] radio" name="entry.6.group" value="N/A" id="group_6_3" /></td>
+              <td align="center" valign="middle" bgcolor="#FFFFFF">&nbsp;</td>
+              <td align="left" bgcolor="#ECECEC">23. Inform about email confirmation<font color="#CC0000"> *</font></td>
+              <td align="center" valign="middle" bgcolor="#ECECEC"><input type="radio" class="validate[required] radio" name="entry.26.group" value="Yes" id="group_26_1" /></td>
+              <td align="center" valign="middle" bgcolor="#ECECEC"><input type="radio" class="validate[required] radio" name="entry.26.group" value="No" id="group_26_2" /></td>
+              <td align="center" valign="middle" bgcolor="#ECECEC"><input type="radio" class="validate[required] radio" name="entry.26.group" value="N/A" id="group_26_3" /></td
+      >
+            </tr>
+            <tr class="Category">
+              <th height="21" align="left" scope="col">B. Handle contact details</th>
+              <th scope="col">Yes</th>
+              <th scope="col">No</th>
+              <th scope="col">N/A</th>
+              <th bgcolor="#FFFFFF" scope="col">&nbsp;</th>
+              <th align="left">F. Telephony skills</th>
+              <th scope="col">Yes</th>
+              <th scope="col">No</th>
+              <th scope="col">N/A</th>
+            </tr>
+            <tr>
+              <td width="433" align="left" bgcolor="#ECECEC" scope="col"><div align="left">4. Ask for / confirm the caller's post code <font color="#CC0000">*</font></div></td>
+              <td align="center" valign="middle" bgcolor="#ECECEC"><input type="radio" class="validate[required] radio" name="entry.7.group" value="Yes" id="group_7_1" /></td>
+              <td align="center" valign="middle" bgcolor="#ECECEC"><input type="radio" class="validate[required] radio" name="entry.7.group" value="No" id="group_7_2" /></td>
+              <td align="center" valign="middle" bgcolor="#ECECEC"><input type="radio" class="validate[required] radio" name="entry.7.group" value="N/A" id="group_7_3" /></td>
+              <td align="center" valign="middle" bgcolor="#FFFFFF">&nbsp;</td>
+              <td align="left" bgcolor="#ECECEC">24. Follow  correct procedures for placing a call on hold <font color="#CC0000">*</font></td>
+              <td align="center" valign="middle" bgcolor="#ECECEC"><input type="radio" class="validate[required] radio" name="entry.27.group" value="Yes" id="group_27_1" /></td>
+              <td align="center" valign="middle" bgcolor="#ECECEC"><input type="radio" class="validate[required] radio" name="entry.27.group" value="No" id="group_27_2" /></td>
+              <td align="center" valign="middle" bgcolor="#ECECEC"><input type="radio" class="validate[required] radio" name="entry.27.group" value="N/A" id="group_27_3" /></td>
+            </tr>
+            <tr>
+              <td align="left" bgcolor="#FFFFFF">5. Ask for / confirm the caller's name <font color="#CC0000">*</font></td>
+              <td align="center" valign="middle" bgcolor="#FFFFFF"><input type="radio" class="validate[required] radio" name="entry.8.group" value="Yes" id="group_8_1" /></td>
+              <td align="center" valign="middle" bgcolor="#FFFFFF"><input type="radio" class="validate[required] radio" name="entry.8.group" value="No" id="group_8_2" /></td>
+              <td align="center" valign="middle" bgcolor="#FFFFFF"><input type="radio" class="validate[required] radio" name="entry.8.group" value="N/A" id="group_8_3" /></td>
+              <td align="center" valign="middle" bgcolor="#FFFFFF">&nbsp;</td>
+              <td align="left" bgcolor="#FFFFFF">25. Follow the correct procedures for transferring a call<font color="#CC0000"> *</font></td>
+              <td align="center" valign="middle" bgcolor="#FFFFFF"><input type="radio" class="validate[required] radio" name="entry.28.group" value="Yes" id="group_28_1" /></td>
+              <td align="center" valign="middle" bgcolor="#FFFFFF"><input type="radio" class="validate[required] radio" name="entry.28.group" value="No" id="group_28_2" /></td>
+              <td align="center" valign="middle" bgcolor="#FFFFFF"><input type="radio" class="validate[required] radio" name="entry.28.group" value="N/A" id="group_28_3" /></td>
+            </tr>
+            <tr>
+              <td height="21" align="left" bgcolor="#ECECEC">6. Ask for when the service is needed, and if the timing is flexible <font color="#CC0000">*</font></td>
+              <td align="center" valign="middle" bgcolor="#ECECEC"><input type="radio" class="validate[required] radio" name="entry.9.group" value="Yes" id="group_9_1" /></td>
+              <td align="center" valign="middle" bgcolor="#ECECEC"><input type="radio" class="validate[required] radio" name="entry.9.group" value="No" id="group_9_2" /></td>
+              <td align="center" valign="middle" bgcolor="#ECECEC"><input type="radio" class="validate[required] radio" name="entry.9.group" value="N/A" id="group_9_3" /></td>
+              <td align="center" valign="middle" bgcolor="#FFFFFF">&nbsp;</td>
+              <th align="left" class="Category">G. End call </th>
+              <th class="Category" scope="col">Yes</th>
+              <th class="Category" scope="col">No</th>
+              <th class="Category" scope="col">N/A</th>
+            </tr>
+            <tr class="Category">
+              <th height="21" align="left" bgcolor="#0086CE" scope="col">C. Transaction information</th>
+              <th bgcolor="#0086CE" scope="col">Yes</th>
+              <th bgcolor="#0086CE" scope="col">No</th>
+              <th bgcolor="#0086CE" scope="col">N/A</th>
+              <th bgcolor="#FFFFFF" scope="col">&nbsp;</th>
+              <td align="left" bgcolor="#FFFFFF" class="Body">26. Offer further assistance at the end of the call <font color="#CC0000">*</font></td>
+              <td align="center" valign="middle" bgcolor="#FFFFFF">                <input type="radio" class="validate[required] radio" name="entry.29.group" value="Yes" id="group_29_1" />              </td>
+              <td align="center" valign="middle" bgcolor="#FFFFFF">                <input type="radio" class="validate[required] radio" name="entry.29.group" value="No" id="group_29_2" />              </td>
+              <td align="center" valign="middle" bgcolor="#FFFFFF">                <input type="radio" class="validate[required] radio" name="entry.29.group" value="N/A" id="group_29_3" />              </td>
+            </tr>
+            <tr>
+              <td align="left" bgcolor="#ECECEC">7. Ask for / confirm the reason for the call<font color="#CC0000"> *</font></td>
+              <td align="center" valign="middle" bgcolor="#ECECEC"><input type="radio" class="validate[required] radio" name="entry.10.group" value="Yes" id="group_10_1" /></td>
+              <td align="center" valign="middle" bgcolor="#ECECEC"><input type="radio" class="validate[required] radio" name="entry.10.group" value="No" id="group_10_2" /></td>
+              <td align="center" valign="middle" bgcolor="#ECECEC"><input type="radio" class="validate[required] radio" name="entry.10.group" value="N/A" id="group_10_3" /></td>
+              <td align="center" valign="middle" bgcolor="#FFFFFF">&nbsp;</td>
+              <td align="left" bgcolor="#ECECEC">27. Close the call in an appropriate manner<font color="#CC0000"> *</font></td>
+              <td align="center" valign="middle" bgcolor="#ECECEC"><input type="radio" class="validate[required] radio" name="entry.30.group" value="Yes" id="group_30_1" /></td>
+              <td align="center" valign="middle" bgcolor="#ECECEC"><input type="radio" class="validate[required] radio" name="entry.30.group" value="No" id="group_30_2" /></td>
+              <td align="center" valign="middle" bgcolor="#ECECEC"><input type="radio" class="validate[required] radio" name="entry.30.group" value="N/A" id="group_30_3" /></td>
+            </tr>
+            <tr>
+              <td height="21" align="left">8. Ask for / confirm the caller's property details<font color="#CC0000"> *</font></td>
+              <td align="center" valign="middle"><input type="radio" class="validate[required] radio" name="entry.11.group" value="Yes" id="group_11_1" /></td>
+              <td align="center" valign="middle"><input type="radio" class="validate[required] radio" name="entry.11.group" value="No" id="group_11_2" /></td>
+              <td align="center" valign="middle"><input type="radio" class="validate[required] radio" name="entry.11.group" value="N/A" id="group_11_3" /></td>
+              <td align="center" valign="middle" bgcolor="#FFFFFF">&nbsp;</td>
+              <th align="left" class="Category">H. Soft Skills </th>
+              <th class="Category" scope="col">Yes</th>
+              <th class="Category" scope="col">No</th>
+              <th class="Category" scope="col">N/A</th>
+            </tr>
+            <tr>
+              <td align="left" bgcolor="#ECECEC">9. Follow service specific script<font color="#CC0000"> *</font></td>
+              <td align="center" valign="middle" bgcolor="#ECECEC"><input type="radio" class="validate[required] radio" name="entry.12.group" value="Yes" id="group_12_1" /></td>
+              <td align="center" valign="middle" bgcolor="#ECECEC"><input type="radio" class="validate[required] radio" name="entry.12.group" value="No" id="group_12_2" /></td>
+              <td align="center" valign="middle" bgcolor="#ECECEC"><input type="radio" class="validate[required] radio" name="entry.12.group" value="N/A" id="group_12_3" /></td>
+              <td align="center" valign="middle" bgcolor="#FFFFFF">&nbsp;</td>
+              <td align="left" bgcolor="#ECECEC">28. Avoid long silences during the call<font color="#CC0000"> *</font></td>
+              <td align="center" valign="middle" bgcolor="#ECECEC"><input type="radio" class="validate[required] radio" name="entry.31.group" value="Yes" id="group_31_1" /></td>
+              <td align="center" valign="middle" bgcolor="#ECECEC"><input type="radio" class="validate[required] radio" name="entry.31.group" value="No" id="group_31_2" /></td>
+              <td align="center" valign="middle" bgcolor="#ECECEC"><input type="radio" class="validate[required] radio" name="entry.31.group" value="N/A" id="group_31_3" /></td>
+            </tr>
+            <tr>
+              <td align="left">10. Capture all details correctly in CRM <font color="#CC0000">*</font></td>
+              <td align="center" valign="middle"><input type="radio" class="validate[required] radio" name="entry.13.group" value="Yes" id="group_13_1" /></td>
+              <td align="center" valign="middle"><input type="radio" class="validate[required] radio" name="entry.13.group" value="No" id="group_13_2" /></td>
+              <td align="center" valign="middle"><input type="radio" class="validate[required] radio" name="entry.13.group" value="N/A" id="group_13_3" /></td>
+              <td align="center" valign="middle" bgcolor="#FFFFFF">&nbsp;</td>
+              <td align="left">29. Not interrupt or talk over the customer <font color="#CC0000">*</font></td>
+              <td align="center" valign="middle"><input type="radio" class="validate[required] radio" name="entry.32.group" value="Yes" id="group_32_1" /></td>
+              <td align="center" valign="middle"><input type="radio" class="validate[required] radio" name="entry.32.group" value="No" id="group_32_2" /></td>
+              <td align="center" valign="middle"><input type="radio" class="validate[required] radio" name="entry.32.group" value="N/A" id="group_32_3" /></td>
+            </tr>
+            <tr>
+              <td align="left" bgcolor="#ECECEC">11. Confirm whether congestion charge and parking is applicable<font color="#CC0000"> *</font></td>
+              <td align="center" valign="middle" bgcolor="#ECECEC"><input type="radio" class="validate[required] radio" name="entry.14.group" value="Yes" id="group_14_1" /></td>
+              <td align="center" valign="middle" bgcolor="#ECECEC"><input type="radio" class="validate[required] radio" name="entry.14.group" value="No" id="group_14_2" /></td>
+              <td align="center" valign="middle" bgcolor="#ECECEC"><input type="radio" class="validate[required] radio" name="entry.14.group" value="N/A" id="group_14_3" /></td>
+              <td align="center" valign="middle" bgcolor="#FFFFFF">&nbsp;</td>
+              <td align="left" bgcolor="#ECECEC">30. Sound clear and confident throughout the call<font color="#CC0000"> *</font></td>
+              <td align="center" valign="middle" bgcolor="#ECECEC"><input type="radio" class="validate[required] radio" name="entry.33.group" value="Yes" id="group_33_1" /></td>
+              <td align="center" valign="middle" bgcolor="#ECECEC"><input type="radio" class="validate[required] radio" name="entry.33.group" value="No" id="group_33_2" /></td>
+              <td align="center" valign="middle" bgcolor="#ECECEC"><input type="radio" class="validate[required] radio" name="entry.33.group" value="N/A" id="group_33_3" /></td>
+            </tr>
+            <tr class="Category">
+              <th height="21" align="left" class="Category">D. Solutution information</th>
+              <th scope="col">Yes</th>
+              <th scope="col">No</th>
+              <th scope="col">N/A</th>
+              <th bgcolor="#FFFFFF" scope="col">&nbsp;</th>
+              <td align="left" bgcolor="#FFFFFF" class="Body">31. Avoid using jargon and bad language<font color="#CC0000"> *</font></td>
+              <td align="center" valign="middle" bgcolor="#FFFFFF"><input type="radio" class="validate[required] radio" name="entry.34.group" value="Yes" id="group_34_1" /></td>
+              <td align="center" valign="middle" bgcolor="#FFFFFF"><input type="radio" class="validate[required] radio" name="entry.34.group" value="No" id="group_34_2" /></td>
+              <td align="center" valign="middle" bgcolor="#FFFFFF"><input type="radio" class="validate[required] radio" name="entry.34.group" value="N/A" id="group_34_3" /></td>
+            </tr>
+            <tr>
+              <td align="left" bgcolor="#ECECEC">12. Explain / confirm how the service will meet the caller's needs<font color="#CC0000"> *</font></td>
+              <td align="center" valign="middle" bgcolor="#ECECEC"><input type="radio" class="validate[required] radio" name="entry.15.group" value="Yes" id="group_15_1" /></td>
+              <td align="center" valign="middle" bgcolor="#ECECEC"><input type="radio" class="validate[required] radio" name="entry.15.group" value="No" id="group_15_2" /></td>
+              <td align="center" valign="middle" bgcolor="#ECECEC"><input type="radio" class="validate[required] radio" name="entry.15.group" value="N/A" id="group_15_3" /></td>
+              <td align="center" valign="middle" bgcolor="#FFFFFF">&nbsp;</td>
+              <td align="left" bgcolor="#ECECEC">32. Smile. Sound friendly, polite and welcoming <font color="#CC0000">*</font></td>
+              <td align="center" valign="middle" bgcolor="#ECECEC"><input type="radio" class="validate[required] radio" name="entry.35.group" value="Yes" id="group_35_1" /></td>
+              <td align="center" valign="middle" bgcolor="#ECECEC"><input type="radio" class="validate[required] radio" name="entry.35.group" value="No" id="group_35_2" /></td>
+              <td align="center" valign="middle" bgcolor="#ECECEC"><input type="radio" class="validate[required] radio" name="entry.35.group" value="N/A" id="group_35_3" /></td>
+            </tr>
+            <tr>
+              <td align="left" bgcolor="#FFFFFF">13. Did the advisor answer customer questions correctly <font color="#CC0000">*</font></td>
+              <td align="center" valign="middle" bgcolor="#FFFFFF"><input type="radio" class="validate[required] radio" name="entry.16.group" value="Yes" id="group_16_1" /></td>
+              <td align="center" valign="middle" bgcolor="#FFFFFF"><input type="radio" class="validate[required] radio" name="entry.16.group" value="No" id="group_16_2" /></td>
+              <td align="center" valign="middle" bgcolor="#FFFFFF"><input type="radio" class="validate[required] radio" name="entry.16.group" value="N/A" id="group_16_3" /></td>
+              <td align="center" valign="middle" bgcolor="#FFFFFF">&nbsp;</td>
+              <td align="left" bgcolor="#FFFFFF">33. Use effective questioning skills<font color="#CC0000"> *</font></td>
+              <td align="center" valign="middle" bgcolor="#FFFFFF"><input type="radio" class="validate[required] radio" name="entry.36.group" value="Yes" id="group_36_1" /></td>
+              <td align="center" valign="middle" bgcolor="#FFFFFF"><input type="radio" class="validate[required] radio" name="entry.36.group" value="No" id="group_36_2" /></td>
+              <td align="center" valign="middle" bgcolor="#FFFFFF"><input type="radio" class="validate[required] radio" name="entry.36.group" value="N/A" id="group_36_3" /></td>
+            </tr>
+            <tr>
+              <td align="left" bgcolor="#ECECEC">14. Attempt to make an 'up-sell' (not Scotchgard) <font color="#CC0000">*</font></td>
+              <td align="center" valign="middle" bgcolor="#ECECEC"><input type="radio" class="validate[required] radio" name="entry.17.group" value="Yes" id="group_17_1" /></td>
+              <td align="center" valign="middle" bgcolor="#ECECEC"><input type="radio" class="validate[required] radio" name="entry.17.group" value="No" id="group_17_2" /></td>
+              <td align="center" valign="middle" bgcolor="#ECECEC"><input type="radio" class="validate[required] radio" name="entry.17.group" value="N/A" id="group_17_3" /></td>
+              <td align="center" valign="middle" bgcolor="#FFFFFF">&nbsp;</td>
+              <td align="left" bgcolor="#ECECEC">34. Demonstrate active listening <font color="#CC0000">*</font></td>
+              <td align="center" valign="middle" bgcolor="#ECECEC"><input type="radio" class="validate[required] radio" name="entry.37.group" value="Yes" id="group_37_1" /></td>
+              <td align="center" valign="middle" bgcolor="#ECECEC"><input type="radio" class="validate[required] radio" name="entry.37.group" value="No" id="group_37_2" /></td>
+              <td align="center" valign="middle" bgcolor="#ECECEC"><input type="radio" class="validate[required] radio" name="entry.37.group" value="N/A" id="group_37_3" /></td>
+            </tr>
+            <tr>
+              <td align="left" bgcolor="#FFFFFF">15. Attempt to sell 'Scotchgard'<font color="#CC0000"> *</font></td>
+              <td align="center" valign="middle" bgcolor="#FFFFFF"><input type="radio" class="validate[required] radio" name="entry.18.group" value="Yes" id="group_18_1" /></td>
+              <td align="center" valign="middle" bgcolor="#FFFFFF"><input type="radio" class="validate[required] radio" name="entry.18.group" value="No" id="group_18_2" /></td>
+              <td align="center" valign="middle" bgcolor="#FFFFFF"><input type="radio" class="validate[required] radio" name="entry.18.group" value="N/A" id="group_18_3" /></td>
+              <td align="center" valign="middle" bgcolor="#FFFFFF">&nbsp;</td>
+              <td align="left" bgcolor="#FFFFFF">35. Adapt to the customer's use of language/tone<font color="#CC0000"> * </font></td>
+              <td align="center" valign="middle" bgcolor="#FFFFFF"><input type="radio" class="validate[required] radio" name="entry.38.group" value="Yes" id="group_38_1" /></td>
+              <td align="center" valign="middle" bgcolor="#FFFFFF"><input type="radio" class="validate[required] radio" name="entry.38.group" value="No" id="group_38_2" /></td>
+              <td align="center" valign="middle" bgcolor="#FFFFFF"><input type="radio" class="validate[required] radio" name="entry.38.group" value="N/A" id="group_38_3" /></td>
+            </tr>
+            <tr>
+              <td align="left" bgcolor="#ECECEC">16. Offer a discount, only in response to a request / 'pulling out'<font color="#CC0000"> *</font></td>
+              <td align="center" valign="middle" bgcolor="#ECECEC"><input type="radio" class="validate[required] radio" name="entry.19.group" value="Yes" id="group_19_1" /></td>
+              <td align="center" valign="middle" bgcolor="#ECECEC"><input type="radio" class="validate[required] radio" name="entry.19.group" value="No" id="group_19_2" /></td>
+              <td align="center" valign="middle" bgcolor="#ECECEC"><input type="radio" class="validate[required] radio" name="entry.19.group" value="N/A" id="group_19_3" /></td>
+              <td align="center" valign="middle" bgcolor="#FFFFFF">&nbsp;</td>
+              <th width="363" align="left" bgcolor="#0086CE" class="Category">I. Call outcome / result<font color="#CC0000"> *</font></th>
+              <th colspan="3" bgcolor="#0086CE" class="Category" scope="col">Outcome</th>
+            </tr>
+            <tr>
+              <td align="left" bgcolor="#FFFFFF">17. Ask for / confirm the caller's address, telephone numbe, email<font color="#CC0000"> *</font></td>
+              <td align="center" valign="middle" bgcolor="#FFFFFF"><input type="radio" class="validate[required] radio" name="entry.20.group" value="Yes" id="group_20_1" /></td>
+              <td align="center" valign="middle" bgcolor="#FFFFFF"><input type="radio" class="validate[required] radio" name="entry.20.group" value="No" id="group_20_2" /></td>
+              <td align="center" valign="middle" bgcolor="#FFFFFF"><input type="radio" class="validate[required] radio" name="entry.20.group" value="N/A" id="group_20_3" /></td>
+              <td align="center" valign="middle" bgcolor="#FFFFFF">&nbsp;</td>
+              <td align="left" bgcolor="#FFFFFF">36.1 Successful booking</td>
+              <td colspan="3" align="center" valign="middle" bgcolor="#FFFFFF"><input type="radio" class="validate[required] radio" name="entry.39.group" value="Sales" id="group_39_1" /></td>
+            </tr>
+            <tr>
+              <td align="left" bgcolor="#ECECEC">18. Summary of services booked, date, time &amp; specific arrangements <font color="#CC0000">*</font></td>
+              <td align="center" valign="middle" bgcolor="#ECECEC"><input type="radio" class="validate[required] radio" name="entry.21.group" value="Yes" id="group_21_1" /></td>
+              <td align="center" valign="middle" bgcolor="#ECECEC"><input type="radio" class="validate[required] radio" name="entry.21.group" value="No" id="group_21_2" /></td>
+              <td align="center" valign="middle" bgcolor="#ECECEC"><input type="radio" class="validate[required] radio" name="entry.21.group" value="N/A" id="group_21_3" /></td>
+              <td align="center" valign="middle" bgcolor="#FFFFFF">&nbsp;</td>
+              <td align="left" bgcolor="#ECECEC">36.2 Sucessfull booking + upsell</td>
+              <td colspan="3" align="center" valign="middle" bgcolor="#ECECEC"><input type="radio" class="validate[required] radio" name="entry.39.group" value="Upsell" id="group_39_2" /></td>
+            </tr>
+            <tr>
+              <td align="left" bgcolor="#FFFFFF">19. Confirm total amount, payment method, explain cancel. policy<font color="#CC0000">*</font></td>
+              <td align="center" valign="middle" bgcolor="#FFFFFF"><input type="radio" class="validate[required] radio" name="entry.22.group" value="Yes" id="group_22_1" /></td>
+              <td align="center" valign="middle" bgcolor="#FFFFFF"><input type="radio" class="validate[required] radio" name="entry.22.group" value="No" id="group_22_2" /></td>
+              <td align="center" valign="middle" bgcolor="#FFFFFF"><input type="radio" class="validate[required] radio" name="entry.22.group" value="N/A" id="group_22_3" /></td>
+              <td align="center" valign="middle" bgcolor="#FFFFFF">&nbsp;</td>
+              <td align="left" bgcolor="#FFFFFF">36.3 Quotation only (customer may call back)</td>
+              <td colspan="3" align="center" valign="middle" bgcolor="#FFFFFF"><input type="radio" class="validate[required] radio" name="entry.39.group" value="Quote" id="group_39_3" /></td>
+            </tr>
+            <tr>
+              <td align="left" bgcolor="#ECECEC"> 20. Take credit card details to guarantee the booking<font color="#CC0000">*</font></td>
+              <td align="center" valign="middle" bgcolor="#ECECEC"><input type="radio" class="validate[required] radio" name="entry.23.group" value="Yes" id="group_23_1" /></td>
+              <td align="center" valign="middle" bgcolor="#ECECEC"><input type="radio" class="validate[required] radio" name="entry.23.group" value="No" id="group_23_2" /></td>
+              <td align="center" valign="middle" bgcolor="#ECECEC"><input type="radio" class="validate[required] radio" name="entry.23.group" value="N/A" id="group_23_3" /></td>
+              <td align="center" valign="middle" bgcolor="#FFFFFF">&nbsp;</td>
+              <td align="left" bgcolor="#ECECEC">36.4 Call was not sucessfull / information only </td>
+              <td colspan="3" align="center" valign="middle" bgcolor="#ECECEC"><input type="radio" class="validate[required] radio" name="entry.39.group" value="Not Successfull" id="group_39_4" /></td>
+            </tr>
+            <tr>
+              <td align="left" bgcolor="#990033"><strong>Results </strong></td>
+              <td colspan="3" align="center" valign="middle" bgcolor="#990033"><strong>Score </strong></td>
+              <td align="center" valign="middle" bgcolor="#FFFFFF">&nbsp;</td>
+              <td colspan="4" align="left" bgcolor="#990033" class="Body"><strong>J. Comments </strong></td>
+              </tr>
+            <tr>
+              <td height="23" align="left" bgcolor="#ECECEC">A. Greeting</td>
+              <td colspan="3" align="center" valign="middle" bgcolor="#ECECEC" id="a">&nbsp;</td>
+              <td align="center" valign="middle" bgcolor="#FFFFFF">&nbsp;</td>
+              <td colspan="4" rowspan="8" align="left" valign="top"><textarea name="entry.40.single" rows="10" cols="50" class="ss-q-long" id="entry_40"></textarea></td>
+              </tr>
+            <tr>
+              <td align="left" bgcolor="#FFFFFF">B. Handle contact details</td>
+              <td colspan="3" align="center" valign="middle" bgcolor="#FFFFFF" id="b">&nbsp;</td>
+              <td align="center" valign="middle" bgcolor="#FFFFFF">&nbsp;</td>
+              </tr>
+            <tr>
+              <td align="left" bgcolor="#ECECEC">C. Transaction information</td>
+              <td colspan="3" align="center" valign="middle" bgcolor="#ECECEC" id="c">&nbsp;</td>
+              <td align="center" valign="middle" bgcolor="#FFFFFF">&nbsp;</td>
+              </tr>
+            <tr>
+              <td align="left" bgcolor="#FFFFFF">D. Solutution information</td>
+              <td colspan="3" align="center" valign="middle" bgcolor="#FFFFFF" id="d">&nbsp;</td>
+              <td align="center" valign="middle" bgcolor="#FFFFFF">&nbsp;</td>
+              </tr>
+            <tr>
+              <td align="left" bgcolor="#ECECEC">E. Notifications</td>
+              <td colspan="3" align="center" valign="middle" bgcolor="#ECECEC" id="e">&nbsp;</td>
+              <td align="center" valign="middle" bgcolor="#FFFFFF">&nbsp;</td>
+              </tr>
+            <tr>
+              <td align="left" bgcolor="#FFFFFF">F. Telephony skills</td>
+              <td colspan="3" align="center" valign="middle" bgcolor="#FFFFFF" id="f">&nbsp;</td>
+              <td align="center" valign="middle" bgcolor="#FFFFFF">&nbsp;</td>
+              </tr>
+            <tr>
+              <td align="left" bgcolor="#ECECEC">G. End call </td>
+              <td colspan="3" align="center" valign="middle" bgcolor="#ECECEC" id="g">&nbsp;</td>
+              <td align="center" valign="middle" bgcolor="#FFFFFF">&nbsp;</td>
+              </tr>
+            <tr>
+              <td align="left" bgcolor="#FFFFFF">H. Soft Skills </td>
+              <td colspan="3" align="center" valign="middle" bgcolor="#FFFFFF" id="h">&nbsp;</td>
+              <td align="center" valign="middle" bgcolor="#FFFFFF">&nbsp;</td>
+              </tr>
+            <tr>
+              <td align="left" bgcolor="#CCCCCC">Total Score</td>
+              <td colspan="3" align="center" valign="middle" bgcolor="#CCCCCC" id="totalScore">&nbsp;</td>
+              <td align="center" valign="middle" bgcolor="#FFFFFF">&nbsp;</td>
+              <td colspan="4" align="left" valign="top" bgcolor="#CCCCCC">&nbsp;</td>
+              </tr>
+          </table>
+<p>
+  <label for="textarea"></label>
+            <label for="textarea"></label>
+            <input type="hidden" name="pageNumber" value="0" />
+            <input type="hidden" name="backupCache" value="" />
+        </p>
+          <div class="totalScore">Form completion: 0%</div>
+                    <div id="progressbar"></div>
+          <p>
+            <input type="image" name="submit" value="Submit" src="images/form-submit.png" />
+          </p>
+          
+          </div></td>
+  </tr>
+</table>
+        </form>
+      
+<p>&nbsp;</p>
+<div></div>
+<div id="status"></div>
+</div>
+</div>
+</div>
+
+
+
+<html>
+  <head>
+    <script type='text/javascript' src='https://www.google.com/jsapi'></script>
+    <script type='text/javascript'>
+      google.load('visualization', '1', {packages:['gauge']});
+      google.setOnLoadCallback(drawChart);
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+          ['Label', 'Value'],
+          ['Score', "totalScore"],
+		  
+                  ]);
+
+        var options = {
+          width: 400, height: 120,
+          redFrom: 90, redTo: 100,
+          yellowFrom:75, yellowTo: 90,
+          minorTicks: 5
+        };
+
+        var chart = new google.visualization.Gauge(document.getElementById('chart_div'));
+        chart.draw(data, options);
+      }
+    </script>
+  </head>
+  <body>
+    <div id='chart_div'></div>
+  </body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
